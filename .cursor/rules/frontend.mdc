@@ -1,0 +1,20 @@
+---
+description: Frontend (Next.js/React/TS) implementation standards
+globs: apps/web/**,packages/ui/**,packages/sdk/**
+alwaysApply: false
+---
+
+# Frontend Standards
+
+Details: Constitution §8; `docs/technical-architecture.md`.
+
+- **Server Components by default; Client Components only when interactivity requires it.**
+- **Feature-based structure** under `features/`, mirroring backend contexts.
+- **No business logic in the UI.** Rules live in the backend.
+- **No secrets, service tokens, or LLM calls in the browser.** Privileged calls go through the BFF (server layer).
+- **Server state via TanStack Query; mutations via Server Actions.** No global client store unless justified; keep filter/view state in the URL.
+- **Forms:** React Hook Form + Zod schemas sourced from `packages/contracts`. No duplicated/drifting validation.
+- **Data access via the typed `sdk`** — no raw `fetch`.
+- **Shared primitives from `packages/ui`** (shadcn/Radix). Don't reimplement them.
+- **Accessibility required:** semantic HTML, keyboard nav, Radix a11y, WCAG-conscious, i18n-ready.
+- Always provide explicit **loading / empty / error** states, especially for AI-latency surfaces.

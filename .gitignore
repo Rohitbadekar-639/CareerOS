@@ -1,0 +1,73 @@
+# ==========================================================================
+# CareerOS .gitignore  (M0-T1)
+# Tracked on purpose: .cursor/, docs/, AGENTS.md, .gitkeep, .env.example
+# ==========================================================================
+
+# --- Secrets / environment (NEVER commit) ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+**/secrets/
+*.secret
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# --- Node / TypeScript ---
+node_modules/
+.pnpm-store/
+.next/
+out/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+.turbo/
+npm-debug.log*
+pnpm-debug.log*
+yarn-error.log*
+.eslintcache
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+.venv/
+venv/
+env/
+.python-version
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+
+# --- Logs / temp ---
+*.log
+logs/
+tmp/
+.temp/
+
+# --- Editor / IDE (local only) ---
+.idea/
+*.swp
+*.swo
+*~
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.shared.json
+
+# --- Build / infra local state ---
+*.local
+docker-compose.override.yml

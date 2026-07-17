@@ -1,0 +1,20 @@
+---
+description: Backend (FastAPI/Python) implementation standards
+globs: apps/api/**,apps/worker/**,contexts/**,shared/**
+alwaysApply: false
+---
+
+# Backend Standards
+
+Details: Constitution §9, §19, §20; `docs/technical-architecture.md`.
+
+- **Five-layer contexts** with inward dependencies; vendor SDKs only in adapters.
+- **Dependency Injection** at the edge (no implicit module globals). Wire in `shared/platform`.
+- **Routers are thin:** translate HTTP ↔ application use cases. No business logic, no SQL, no LLM calls.
+- **Typed everything** (full type hints). No untyped dicts crossing boundaries. Validate inputs at the boundary (Pydantic).
+- **Typed config** via pydantic-settings, per environment, fail-fast on missing values. No magic literals.
+- **Errors:** typed domain errors → mapped to problem-details responses. Never leak stack traces/internals. Never swallow exceptions.
+- **Logging:** structured JSON, correlation/trace id per line, PII-redacted. No `print`. No logging as flow control.
+- **Long-running / AI work runs in `worker`**, enqueued via the `TaskQueue` port. Workers are idempotent with backoff + dead-letter.
+- **Emit domain events** for cross-context state changes; never reach into another context.
+- **No hardcoded secrets/model names/prompts.**

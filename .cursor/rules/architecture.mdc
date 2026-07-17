@@ -1,0 +1,20 @@
+---
+description: System-wide architecture guardrails (modular monolith, ports, events)
+alwaysApply: true
+---
+
+# Architecture Guardrails
+
+Details: `docs/system-architecture.md`, `docs/technical-architecture.md`, Constitution §2.
+
+- **Modular monolith.** No new deployable service without an ADR. The async `worker` tier is the one approved split.
+- **Bounded contexts** are the top-level unit of modularity, not technical layers.
+- **Dependency direction:** `api → application → domain`; `domain` imports nothing external.
+  `infrastructure` implements `ports`. Framework/vendor code only in `infrastructure`/adapters.
+- **Ports for everything external:** LLM, vector store, auth, storage, queue, event bus,
+  opportunity sources, repositories. Swapping an adapter must not touch unrelated code.
+- **Cross-context comms:** domain events (past-tense, versioned) or published contracts only.
+  Never read another context's tables or internal models.
+- **Stateless compute.** State lives in Postgres / object storage / vector store / queue.
+- **Async for slow/failure-prone work.** The API enqueues; the worker executes. Never block HTTP on AI.
+- **Design for scale, build for now.** Keep the path open; don't add distributed complexity the MVP lacks.

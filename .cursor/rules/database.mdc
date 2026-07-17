@@ -1,0 +1,20 @@
+---
+description: Database, persistence, and migration standards
+globs: contexts/**/infrastructure/**,infra/migrations/**
+alwaysApply: false
+---
+
+# Database Rules
+
+Details: Constitution §6; `docs/technical-architecture.md`.
+
+- **Postgres is the system of record.** pgvector in MVP; Qdrant only via the `VectorStore` port when metrics justify.
+- **No raw SQL outside `infrastructure`.** No SQL in controllers, services, or domain.
+- **Row-Level Security is mandatory** — scope every user-owned row by user (and tenant when activated), independent of app-layer authz.
+- **Migrations** are versioned, reviewed, and forward-compatible (expand/contract). No destructive migration without a reversible plan.
+- **Files never in the DB** — object storage holds files; DB holds metadata + references.
+- **No cross-context FKs that couple contexts.** Reference other contexts by ID.
+- **Append-only/immutable** where the domain requires (ResumeVersion, ReviewTask decisions, audit logs, AgentRun checkpoints).
+- **Repositories** persist/retrieve one aggregate; use dedicated **read models** for lists/queries (no aggregate loads for lists).
+- **PII classified;** field-level encryption for the most sensitive fields (e.g., salary). Implement DPDP export/erasure paths.
+- New high-cardinality query paths require an **index rationale** in the PR.

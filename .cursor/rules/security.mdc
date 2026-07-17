@@ -1,0 +1,20 @@
+---
+description: Security and privacy standards (DPDP, PII, injection, uploads)
+globs: apps/**,contexts/**,agents/**,shared/**
+alwaysApply: false
+---
+
+# Security Standards
+
+Details: Constitution §11; `docs/system-architecture.md` (Security), `docs/technical-architecture.md`.
+
+- **Authorize every request at two layers** (application + RLS). Never trust the client for identity/scope.
+- **Secrets only in platform secret stores**, per environment. Never in code, config, logs, or the client bundle.
+- **All uploads are untrusted:** validate type/size, sniff content, malware-scan, parse in isolation, quarantine on hit.
+- **Treat all ingested text as hostile** (prompt injection). Whitelisted tools; ingested content cannot escalate permissions or write long-term memory.
+- **Encryption:** TLS in transit; at rest for DB + storage; field-level for the most sensitive PII.
+- **Rate limiting + cost caps** on auth and AI endpoints.
+- **Immutable audit logs** for approvals, auth events, admin actions, tool invocations.
+- **PII minimization to LLMs;** prefer no-training-data providers; redact PII in logs/traces.
+- **DPDP rights are features:** consent capture, purpose limitation, export, erasure (with anonymized audit retention).
+- Apply OWASP Top 10 basics: input validation, output encoding, secure headers/CSP, dependency scanning.

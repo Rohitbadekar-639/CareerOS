@@ -1,0 +1,30 @@
+---
+description: Mandatory project constitution and locked architecture — read before any code
+alwaysApply: true
+---
+
+# CareerOS — Obey the Constitution
+
+The binding rules are in `docs/engineering-constitution.md` and the five locked specs
+(`docs/vision.md`, `docs/system-architecture.md`, `docs/domain-model.md`, `docs/ai-architecture.md`,
+`docs/technical-architecture.md`). **Read them; do not restate or duplicate them here.**
+
+## Non-negotiables (full list: Constitution §26)
+
+- No business logic in UI, routers, or controllers.
+- No LLM calls in React components or on the request path.
+- No DB/LLM/vendor SDK calls outside `infrastructure`/adapters — everything external is behind a Port.
+- No hardcoded prompts, model names, or secrets.
+- No AI artifact leaving the platform (or representing the user) without human approval.
+- No fabricated resume/profile content (grounding is mandatory, zero-fabrication is a hard gate).
+- No cross-context access except via domain events or published contracts.
+- No circular dependencies; no god classes/aggregates.
+
+## Amendment rule
+
+Any deviation from the Constitution or a locked document **requires an ADR** in `docs/adr/`,
+merged **before** the deviating code. No ADR → no deviation. When unsure, stop and open an ADR.
+
+## Before finishing
+
+Meet the Definition of Done (Constitution §25) and the Code Review Checklist (§24).

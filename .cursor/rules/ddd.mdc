@@ -1,0 +1,21 @@
+---
+description: DDD tactical rules for bounded contexts
+globs: contexts/**
+alwaysApply: false
+---
+
+# DDD Rules
+
+Details: `docs/domain-model.md`, Constitution §4.
+
+- **Ubiquitous Language is law.** Use exact terms: Candidate, Opportunity (never "Job"),
+  Match, Recommendation (a surfaced Match), PreparationArtifact, ReviewTask, Application, AgentRun.
+- **Context layout:** `domain/ application/ ports/ infrastructure/ api/`. Domain is pure (no I/O, no frameworks).
+- **One aggregate per transaction.** Reference other aggregates by ID; never embed. Keep aggregates small.
+- **Invariants live inside the aggregate**, not in services or UI.
+- **Repositories:** one per aggregate root; persist/retrieve that aggregate only. Use read models for queries/lists.
+- **Value Objects** are immutable and identity-free; anything with lifecycle/identity is an Entity.
+- **Domain events** are the only cross-context coupling; emit them on meaningful state changes.
+- **ACL at boundaries:** translate parsed docs / external opportunities / provider payloads; never leak their shapes inward.
+- **Skills** are referenced by canonical Skill Taxonomy ID, never free-text.
+- Application services orchestrate use cases (load → act → persist → emit); they hold no business rules.

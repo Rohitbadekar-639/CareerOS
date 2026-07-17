@@ -1,0 +1,20 @@
+---
+description: Testing and AI evaluation standards
+globs: **/*.test.*,**/*.spec.*,tests/**,evals/**
+alwaysApply: false
+---
+
+# Testing Standards
+
+Details: Constitution §10; `docs/ai-architecture.md` (Evaluation).
+
+- **Testing pyramid:** many fast unit tests (pure domain, no I/O, fakes for ports); fewer integration tests (adapters/repos against real infra); few E2E for critical flows.
+- **Domain logic MUST be unit-tested** without I/O.
+- **Every bug fix ships a regression test.**
+- **AI outputs are evaluated, not asserted verbatim** — use the eval harness (golden datasets + judges + heuristics). Prompt/agent/model changes MUST pass the eval gate in CI.
+- **Resume truthfulness / zero-fabrication is a hard eval gate.**
+- **Contract tests** guard the API ↔ frontend boundary and event schemas.
+- **Deterministic + isolated** tests: no network, wall-clock, or ordering dependence. Mock/record LLM calls in unit/integration tests.
+- **Critical E2E flow:** signup → profile → match → prep → human approval.
+- **No merging with failing/skipped tests** (skips need an ADR or tracked issue).
+- Coverage is a signal, not a target — but critical paths MUST be covered.
