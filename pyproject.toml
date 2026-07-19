@@ -15,6 +15,13 @@ dev = [
 [tool.uv]
 package = false
 
+# --- Tests (pytest) ---
+# importlib mode lets same-named test modules coexist across packages
+# (e.g. each package has its own tests/test_health.py) without __init__.py files.
+
+[tool.pytest.ini_options]
+addopts = "--import-mode=importlib"
+
 [tool.uv.workspace]
 # Python packages land in later M0 tasks (api T6, worker T7, shared/* T8-T11).
 # Only glob patterns here: uv tolerates globs with zero matches, so the

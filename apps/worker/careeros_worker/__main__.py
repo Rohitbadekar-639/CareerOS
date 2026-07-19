@@ -1,8 +1,10 @@
 import asyncio
 import signal
 
+from careeros_platform.logging import configure_logging
 from careeros_platform.settings import get_settings
 from careeros_platform.task_queue import InMemoryTaskQueue
+from careeros_platform.tracing import TraceIdLogFilter, configure_tracing
 from careeros_worker.worker import run
 
 
@@ -26,6 +28,9 @@ async def _run_until_signalled() -> None:
 
 
 def main() -> None:
+    settings = get_settings()
+    configure_logging(settings.log_level, filters=[TraceIdLogFilter()])
+    configure_tracing(settings.app_name)
     asyncio.run(_run_until_signalled())
 
 
