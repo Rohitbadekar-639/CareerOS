@@ -1,0 +1,74 @@
+"""Typed application configuration (T9).
+
+Central, typed settings loaded per environment via ``pydantic-settings``.
+
+Precedence (highest first): explicit keyword arguments, process environment
+variables (prefixed ``CAREEROS_``), the environment-specific dotenv file
+(``.env.<environment>``), then the base ``.env`` file. Missing required values
+fail fast at construction with a clear ``ValidationError``.
+
+Secrets are never committed: dotenv files are git-ignored and only real
+environment variables carry credentials in staging/production.
+"""
+
+import os
+from enum import StrEnum
+from functools import lru_cache
+
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+ENV_PREFIX = "CAREEROS_"
+
+
+class Environment(StrEnum):
+    DEVELOPMENT = "development"
+    STAGING = "staging"
+    PRODUCTION = "production"
+
+
+def _dotenv_chain(environment: str) -> tuple[str, ...]:
+    """Base dotenv plus an environment-specific override file.
+
+    Later files win in pydantic-settings, so the environment-specific file
+    overrides the shared base.
+    """
+    return (".env", f".env.{environment}")
+
+
+class Settings(BaseSettings):
+    # No env_file here: raw ``Settings()`` reads only process env vars, which
+    # keeps it deterministic. Dotenv layering is applied by ``load_settings``.
+    model_config = SettingsConfigDict(
+        env_prefix=ENV_PREFIX,
+        extra="ignore",
+    )
+
+    # Required: absence fails fast (no default). Holds credentials, so it is
+    # sourced only from the environment/secret store, never committed.
+    database_url: str
+
+    # Optional, with safe local defaults.
+    app_name: str = "career-os"
+    environment: Environment = Environment.DEVELOPMENT
+    log_level: str = "INFO"
+    api_host: str = "127.0.0.1"
+    api_port: int = 8000
+
+
+def load_settings() -> Settings:
+    """Build settings for the active environment.
+
+    The environment is read from ``CAREEROS_ENVIRONMENT`` (default
+    ``development``) and selects which dotenv override file is layered on top of
+    the base ``.env``.
+    """
+    environment = os.getenv(f"{ENV_PREFIX}ENVIRONMENT", Environment.DEVELOPMENT.value)
+    # pydantic-settings accepts ``_env_file`` at runtime, but its mypy plugin
+    # omits it from the generated __init__; this is the one place we use it.
+    return Settings(_env_file=_dotenv_chain(environment))  # type: ignore[call-arg]
+
+
+@lru_cache
+def get_settings() -> Settings:
+    """Return the process-wide settings singleton."""
+    return load_settings()

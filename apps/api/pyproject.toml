@@ -1,0 +1,22 @@
+[project]
+name = "careeros-api"
+version = "0.0.0"
+description = "CareerOS FastAPI modular monolith (sync HTTP; enqueues async work)"
+requires-python = ">=3.14,<3.15"
+dependencies = [
+    "careeros-platform",
+    "careeros-shared-kernel",
+    "fastapi==0.139.2",
+    "uvicorn[standard]==0.51.0",
+]
+
+[tool.uv.sources]
+careeros-platform = { workspace = true }
+careeros-shared-kernel = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["careeros_api"]

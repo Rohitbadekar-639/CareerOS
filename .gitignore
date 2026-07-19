@@ -45,6 +45,8 @@ __pycache__/
 venv/
 env/
 .python-version
+# ...but the root interpreter pin is tracked (M0-T3)
+!/.python-version
 .mypy_cache/
 .ruff_cache/
 .pytest_cache/
