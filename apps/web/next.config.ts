@@ -1,5 +1,9 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {};
+// `standalone` emits a self-contained server bundle for a minimal runtime image
+// (M0-T13). Production web is deployed on Vercel; this powers the local container.
+const nextConfig: NextConfig = {
+  output: "standalone",
+};
 
 export default nextConfig;
