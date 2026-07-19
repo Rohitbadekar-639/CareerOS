@@ -1,3 +1,4 @@
+from careeros_platform.logging import configure_logging, get_logger
 from careeros_platform.settings import (
     Environment,
     Settings,
@@ -16,6 +17,8 @@ __all__ = [
     "Settings",
     "TaskPayload",
     "TaskQueue",
+    "configure_logging",
+    "get_logger",
     "get_settings",
     "load_settings",
 ]
