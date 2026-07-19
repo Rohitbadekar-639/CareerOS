@@ -8,6 +8,8 @@ requires-python = ">=3.14,<3.15"
 dev = [
     "ruff==0.15.22",
     "mypy==2.3.0",
+    "pytest==9.1.1",
+    "httpx==0.28.1",
 ]
 
 [tool.uv]
@@ -45,6 +47,9 @@ select = [
     "SIM", # flake8-simplify
     "RUF", # ruff-specific
 ]
+
+[tool.ruff.lint.isort]
+known-first-party = ["careeros_api", "careeros_platform"]
 
 # --- Typecheck (mypy, strict) ---
 
