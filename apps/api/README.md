@@ -2,9 +2,21 @@
 
 FastAPI modular monolith (sync HTTP; enqueues async work) — M0-T6 skeleton.
 
-Boots and wires to typed settings from `careeros-platform`. No domain logic and
-no endpoints yet: the root router is an empty placeholder, and health/readiness
-endpoints arrive in T12.
+Boots and wires to typed settings from `careeros-platform`. No domain logic yet;
+the root router is an empty placeholder.
+
+## Endpoints
+
+- `GET /healthz` — liveness; returns `{"status":"ok"}`.
+- `GET /readyz` — readiness with per-dependency checks (stubbed until adapters land).
+
+## Cross-cutting behaviour
+
+- **Request correlation (T11):** every request opens a span; its trace id is
+  returned in the `x-trace-id` response header and stamped on every log line.
+- **Problem-details (T12):** domain errors and unexpected exceptions are mapped to
+  RFC 9457 `application/problem+json`. Stack traces and internal messages never
+  leak to clients.
 
 ## Run locally
 

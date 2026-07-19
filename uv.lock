@@ -111,6 +111,7 @@ version = "0.0.0"
 source = { editable = "apps/api" }
 dependencies = [
     { name = "careeros-platform" },
+    { name = "careeros-shared-kernel" },
     { name = "fastapi" },
     { name = "uvicorn", extra = ["standard"] },
 ]
@@ -118,6 +119,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "careeros-platform", editable = "shared/platform" },
+    { name = "careeros-shared-kernel", editable = "shared/shared_kernel" },
     { name = "fastapi", specifier = "==0.139.2" },
     { name = "uvicorn", extras = ["standard"], specifier = "==0.51.0" },
 ]
