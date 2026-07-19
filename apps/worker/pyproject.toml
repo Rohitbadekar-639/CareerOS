@@ -1,0 +1,18 @@
+[project]
+name = "careeros-worker"
+version = "0.0.0"
+description = "CareerOS async worker (background jobs; idles against the TaskQueue port)"
+requires-python = ">=3.14,<3.15"
+dependencies = [
+    "careeros-platform",
+]
+
+[tool.uv.sources]
+careeros-platform = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["careeros_worker"]
