@@ -49,7 +49,12 @@ select = [
 ]
 
 [tool.ruff.lint.isort]
-known-first-party = ["careeros_api", "careeros_platform"]
+known-first-party = [
+    "careeros_api",
+    "careeros_platform",
+    "careeros_shared_kernel",
+    "careeros_worker",
+]
 
 # --- Typecheck (mypy, strict) ---
 
