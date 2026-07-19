@@ -1,0 +1,81 @@
+# CareerOS local environment (M0-T14).
+# One command — `docker compose up` — brings up Postgres (pgvector), api, worker
+# and web. Values default to local-dev-safe settings and can be overridden via a
+# local .env (see .env.example). Production web runs on Vercel; it is included
+# here for local parity.
+
+name: careeros
+
+x-careeros-app-env: &careeros-app-env
+  CAREEROS_ENVIRONMENT: ${CAREEROS_ENVIRONMENT:-development}
+  CAREEROS_LOG_LEVEL: ${CAREEROS_LOG_LEVEL:-INFO}
+  CAREEROS_APP_NAME: ${CAREEROS_APP_NAME:-career-os}
+  # In-cluster DNS: reach Postgres by its service name.
+  CAREEROS_DATABASE_URL: postgresql://${POSTGRES_USER:-careeros}:${POSTGRES_PASSWORD:-careeros}@postgres:5432/${POSTGRES_DB:-careeros}
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-careeros}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-careeros}
+      POSTGRES_DB: ${POSTGRES_DB:-careeros}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./infra/docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-careeros} -d ${POSTGRES_DB:-careeros}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      dockerfile: infra/docker/api.Dockerfile
+    init: true
+    environment:
+      <<: *careeros-app-env
+      # Bind all interfaces inside the container (default is loopback-only).
+      CAREEROS_API_HOST: 0.0.0.0
+      CAREEROS_API_PORT: "8000"
+    ports:
+      - "${CAREEROS_API_PORT:-8000}:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      dockerfile: infra/docker/worker.Dockerfile
+    init: true
+    environment:
+      <<: *careeros-app-env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: infra/docker/web.Dockerfile
+    init: true
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
