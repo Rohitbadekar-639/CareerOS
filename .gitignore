@@ -25,6 +25,7 @@ $RECYCLE.BIN/
 node_modules/
 .pnpm-store/
 .next/
+next-env.d.ts
 out/
 dist/
 build/

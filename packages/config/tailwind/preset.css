@@ -1,0 +1,12 @@
+/*
+ * Shared Tailwind (v4, CSS-first) preset for CareerOS apps.
+ * Consume after the framework import:
+ *
+ *   @import "tailwindcss";
+ *   @import "@career-os/config/tailwind";
+ *
+ * Design tokens (colors, fonts, spacing) are defined here once the
+ * design system lands with packages/ui; empty by design in M0.
+ */
+@theme {
+}
