@@ -1,6 +1,10 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "tasks": {
+    "generate": {
+      "cache": false,
+      "outputs": ["openapi.json", "src/**"]
+    },
     "build": {
       "dependsOn": ["^build"],
       "outputs": []

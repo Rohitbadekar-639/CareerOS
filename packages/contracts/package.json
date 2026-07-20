@@ -1,0 +1,30 @@
+{
+  "name": "@career-os/contracts",
+  "version": "0.0.0",
+  "private": true,
+  "description": "OpenAPI-generated TypeScript types + Zod schemas (source: apps/api)",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./openapi.json": "./openapi.json"
+  },
+  "prettier": "@career-os/config/prettier",
+  "scripts": {
+    "generate": "node ./scripts/generate.mjs",
+    "check": "node ./scripts/check.mjs",
+    "build": "tsc --noEmit",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/pipeline.test.mjs"
+  },
+  "dependencies": {
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@career-os/config": "workspace:*",
+    "eslint": "10.7.0",
+    "json-schema-to-zod": "2.8.1",
+    "openapi-typescript": "7.13.0",
+    "typescript": "6.0.3"
+  }
+}
