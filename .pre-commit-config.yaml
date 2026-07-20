@@ -1,0 +1,37 @@
+# Local guardrails matching CI (M0-T20).
+# Install once: `uv run pre-commit install`
+# Run all hooks: `uv run pre-commit run --all-files`
+#
+# Fast subset: format + lint + typecheck. Full tests / contracts:check / security
+# stay in CI (see .github/workflows/ci.yml).
+
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.22
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint (pnpm lint)
+        entry: pnpm lint
+        language: system
+        pass_filenames: false
+        types_or: [javascript, jsx, ts, tsx]
+
+      - id: typecheck-js
+        name: typecheck (pnpm typecheck)
+        entry: pnpm typecheck
+        language: system
+        pass_filenames: false
+        types_or: [ts, tsx]
+
+      - id: typecheck-py
+        name: typecheck (pnpm typecheck:py)
+        entry: pnpm typecheck:py
+        language: system
+        pass_filenames: false
+        types: [python]

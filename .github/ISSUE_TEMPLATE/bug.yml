@@ -1,0 +1,58 @@
+name: Bug report
+description: Unexpected behaviour with clear repro steps
+title: "fix: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before filing: confirm this is not already fixed on the default branch, and that it is in scope for the **current milestone** (`docs/roadmap/`).
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One or two sentences describing the bug.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps starting from a clean checkout when possible.
+      placeholder: |
+        1. …
+        2. …
+        3. …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Node/Python versions, docker compose vs host, relevant CAREEROS_* values (no secrets).
+      placeholder: |
+        OS:
+        Node / pnpm:
+        Python / uv:
+        How run: docker compose | host
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Logs / evidence
+      description: Paste redacted logs, trace ids, or screenshots. Never include secrets or PII.
+    validations:
+      required: false

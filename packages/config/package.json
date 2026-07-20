@@ -1,0 +1,22 @@
+{
+  "name": "@career-os/config",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Shared TS/ESLint/Prettier/Tailwind presets for CareerOS JS packages (M0-T4)",
+  "type": "module",
+  "exports": {
+    "./typescript/base.json": "./typescript/base.json",
+    "./eslint/base": "./eslint/base.js",
+    "./prettier": "./prettier/index.js",
+    "./tailwind": "./tailwind/preset.css"
+  },
+  "dependencies": {
+    "@eslint/js": "10.0.1",
+    "eslint-config-prettier": "10.1.8",
+    "typescript-eslint": "8.64.0"
+  },
+  "peerDependencies": {
+    "eslint": "^10.0.0",
+    "typescript": ">=5.9.0 <6.1.0"
+  }
+}

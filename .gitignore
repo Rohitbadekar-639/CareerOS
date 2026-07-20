@@ -25,6 +25,7 @@ $RECYCLE.BIN/
 node_modules/
 .pnpm-store/
 .next/
+next-env.d.ts
 out/
 dist/
 build/
@@ -35,6 +36,7 @@ npm-debug.log*
 pnpm-debug.log*
 yarn-error.log*
 .eslintcache
+**/next-env.d.ts
 
 # --- Python ---
 __pycache__/

@@ -1,0 +1,8 @@
+{
+  "extends": "@career-os/config/typescript/base.json",
+  "compilerOptions": {
+    "rootDir": "src"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
+}

@@ -33,5 +33,5 @@ uv run pytest apps/api
 ## Configuration
 
 Settings come from `careeros_platform.settings.Settings` (env prefix `CAREEROS_`).
-The full configuration surface (per-environment loading, required-var fail-fast)
-is owned by T9; this skeleton uses only the minimal typed settings it needs.
+See [`docs/environments.md`](../../docs/environments.md) for the full configuration
+surface and [`docs/development.md`](../../docs/development.md) for local setup.

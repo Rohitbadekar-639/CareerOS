@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Locked architecture & Constitution
+    url: https://github.com/Rohitbadekar-639/CareerOS/blob/master/AGENTS.md
+    about: Read AGENTS.md and the locked docs before proposing changes that touch architecture.
+  - name: ADR process
+    url: https://github.com/Rohitbadekar-639/CareerOS/blob/master/docs/adr/template.md
+    about: Deviations from locked documents require an ADR merged before code.
