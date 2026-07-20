@@ -10,6 +10,8 @@ dev = [
     "mypy==2.3.0",
     "pytest==9.1.1",
     "httpx==0.28.1",
+    "pre-commit==4.6.0",
+    "pip-audit==2.10.1",
 ]
 
 [tool.uv]

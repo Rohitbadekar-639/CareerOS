@@ -12,6 +12,10 @@
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
+    "lint:py": "uv run ruff check . && uv run ruff format --check .",
+    "typecheck:py": "uv run python scripts/typecheck_python.py",
+    "test:py": "uv run pytest",
+    "eval:gate": "uv run python evals/run_gate.py",
     "contracts:generate": "pnpm --filter @career-os/contracts generate",
     "contracts:check": "pnpm --filter @career-os/contracts check"
   },
