@@ -1,0 +1,60 @@
+name: Feature request
+description: Propose a capability that fits the roadmap and locked architecture
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Features must fit the locked docs and the **current milestone**. CareerOS is not a job board, resume builder, or auto-applier. Architecture deviations need an ADR first.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user or system problem does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What should change? Which app/context/port is involved?
+    validations:
+      required: true
+  - type: dropdown
+    id: milestone
+    attributes:
+      label: Target milestone
+      options:
+        - M0 Foundations
+        - M1+ (describe in notes)
+        - Unsure — needs roadmap discussion
+    validations:
+      required: true
+  - type: textarea
+    id: architecture
+    attributes:
+      label: Architecture fit
+      description: Which locked docs apply? Any ADR needed?
+      placeholder: |
+        Docs touched:
+        ADR required: yes/no
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Constraints acknowledged
+      options:
+        - label: No LLM calls on the request path / in React components
+          required: true
+        - label: No fabricated resume/profile content; grounding required for AI artifacts
+          required: true
+        - label: Anything leaving the platform or representing the user requires human approval
+          required: true

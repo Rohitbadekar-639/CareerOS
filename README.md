@@ -47,10 +47,21 @@ their milestone builds them out.
 | `docs/` | Locked specs, ADRs, roadmap |
 | `.cursor/rules/` | Cursor rules that enforce the constitution during coding |
 
+## Local development
+
+- [`docs/development.md`](docs/development.md) — clone, install, `docker compose up`, common commands
+- [`docs/environments.md`](docs/environments.md) — `CAREEROS_*` settings, secrets, `.env.example`
+- [`.env.example`](.env.example) — tracked template (copy to `.env`; never commit secrets)
+
+```bash
+docker compose up --build
+```
+
 ## Contributing
 
-Follow the workflow in [`AGENTS.md`](AGENTS.md): short-lived branches, Conventional Commits,
-small PRs, the Definition of Done (Constitution §25), and the Code Review Checklist (§24).
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the full workflow: branch naming, Conventional
+Commits, ADRs, PR/issue templates, Constitution §24 review checklist, and §25 Definition of
+Done. Orientation and golden rules: [`AGENTS.md`](AGENTS.md).
 Any deviation from a locked document requires an ADR merged first.
 
 ## License

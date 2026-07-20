@@ -1,8 +1,8 @@
 # CareerOS local environment (M0-T14).
 # One command — `docker compose up` — brings up Postgres (pgvector), api, worker
 # and web. Values default to local-dev-safe settings and can be overridden via a
-# local .env (see .env.example). Production web runs on Vercel; it is included
-# here for local parity.
+# local .env (see .env.example and docs/environments.md). Production web runs on
+# Vercel; it is included here for local parity.
 
 name: careeros
 

@@ -1,0 +1,41 @@
+name: Task / chore
+description: Scaffolding, docs, tooling, or milestone task work
+title: "chore: "
+labels: ["chore"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for M0-style foundations work (tooling, docs, CI, scaffolding) — not product features.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: What needs to be done and why.
+    validations:
+      required: true
+  - type: input
+    id: roadmap
+    attributes:
+      label: Roadmap task (if any)
+      description: e.g. M0-T16, M0-T21
+      placeholder: M0-Txx
+    validations:
+      required: false
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: How we know this is done. Prefer testable checks.
+      placeholder: |
+        - [ ] …
+        - [ ] …
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Notes / links
+      description: Related PRs, ADRs, or docs.
+    validations:
+      required: false
