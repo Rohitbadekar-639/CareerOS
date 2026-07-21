@@ -83,6 +83,26 @@ jobs:
     name: Tests
     runs-on: ubuntu-latest
     needs: [lint-typecheck]
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: careeros
+          POSTGRES_PASSWORD: careeros
+          POSTGRES_DB: careeros
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U careeros -d careeros"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      CAREEROS_DATABASE_URL: postgresql://careeros:careeros@localhost:5432/careeros
+      CAREEROS_TEST_DATABASE_URL: postgresql://careeros:careeros@localhost:5432/careeros
+      CAREEROS_SUPABASE_URL: http://127.0.0.1:54321
+      CAREEROS_SUPABASE_ANON_KEY: test-anon-key
+      CAREEROS_SUPABASE_JWT_SECRET: super-secret-jwt-token-with-at-least-32-characters-long
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -96,6 +116,7 @@ jobs:
           python-version-file: .python-version
       - run: pnpm install --frozen-lockfile
       - run: uv sync --all-packages --frozen
+      - run: pnpm db:migrate
       - run: pnpm test
       - run: pnpm test:py
 

@@ -5,6 +5,8 @@ description = "CareerOS Identity & Access bounded context (User, Consent)"
 requires-python = ">=3.14,<3.15"
 dependencies = [
     "careeros-shared-kernel",
+    "psycopg[binary]==3.2.10",
+    "PyJWT==2.10.1",
 ]
 
 [tool.uv.sources]

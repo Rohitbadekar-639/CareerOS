@@ -28,5 +28,5 @@ Or use the root scripts: `pnpm db:migrate` / `pnpm db:current`.
 
 - No ORM models are required; revisions may use raw SQL via Alembic ops.
 - Do not point `CAREEROS_DATABASE_URL` at the Supabase local DB (port 54322).
-- Domain tables (users, consents, …) land in later M1 batches — this Batch 1
-  change only installs the migration runner.
+- Identity tables (`identity.users`, `identity.consents`) and RLS land in
+  revision `20260721_0002`.

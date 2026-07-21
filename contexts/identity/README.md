@@ -5,13 +5,30 @@ evolve independently of Career Profile.
 
 ## Layers
 
-| Layer | Status (M1 Batch 2) |
+| Layer | Status (M1) |
 |---|---|
 | `domain/` | Implemented — pure, no I/O |
 | `application/` | Scaffold only |
-| `ports/` | Scaffold only (no repository ports yet) |
-| `infrastructure/` | Scaffold only |
+| `ports/` | `UserRepository`, `AuthProvider` |
+| `infrastructure/` | `PostgresUserRepository`, `SupabaseAuthProvider` |
 | `api/` | Scaffold only |
 
-Cross-context reactions (e.g. Candidate shell) consume IAM domain events in a
-later batch — not via imports of this context's internals.
+## Persistence & RLS
+
+- Schema: `identity.users`, `identity.consents` (Alembic `20260721_0002`)
+- RLS is **FORCE**d. Session GUCs:
+  - `app.current_user_id` — own-row read/write
+  - `app.current_auth_ref` — lookup by Supabase subject
+  - `app.rls_bypass=on` — admin/migrations/tests only
+- Runtime role: `PostgresUserRepository` uses `SET LOCAL ROLE careeros_app`
+  (non-superuser, no `BYPASSRLS`) so policies apply even when the login role is
+  a Docker superuser.
+
+## Integration tests
+
+```bash
+docker compose up -d postgres
+pnpm db:migrate
+# if host :5432 is taken, use POSTGRES_PORT=5433 and matching DATABASE_URL
+uv run pytest contexts/identity -m integration
+```

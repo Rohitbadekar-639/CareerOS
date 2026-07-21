@@ -26,6 +26,9 @@ package = false
 
 [tool.pytest.ini_options]
 addopts = "--import-mode=importlib"
+markers = [
+    "integration: requires a migrated Postgres (CAREEROS_TEST_DATABASE_URL)",
+]
 
 [tool.uv.workspace]
 # Python packages land in later M0 tasks (api T6, worker T7, shared/* T8-T11).

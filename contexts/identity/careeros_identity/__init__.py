@@ -19,9 +19,11 @@ from careeros_identity.domain import (
     UserStatus,
     UserSuspended,
 )
+from careeros_identity.ports import AuthProvider, UserRepository, VerifiedIdentity
 
 __all__ = [
     "AccountDeletionRequested",
+    "AuthProvider",
     "AuthRef",
     "Consent",
     "ConsentGranted",
@@ -35,7 +37,9 @@ __all__ = [
     "UserErased",
     "UserId",
     "UserRegistered",
+    "UserRepository",
     "UserRole",
     "UserStatus",
     "UserSuspended",
+    "VerifiedIdentity",
 ]
