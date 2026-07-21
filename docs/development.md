@@ -1,6 +1,6 @@
 # Developer setup
 
-> **M0-T16.** How to clone CareerOS and run the local stack. Configuration details live in
+> How to clone CareerOS and run the local stack. Configuration details live in
 > [`environments.md`](environments.md). Contribution workflow lives in
 > [`CONTRIBUTING.md`](../CONTRIBUTING.md).
 
@@ -12,11 +12,12 @@
 | pnpm | `10.11.0` | Via `packageManager` in root `package.json` (Corepack) |
 | Python | `3.14.x` (see `.python-version`) | `requires-python = ">=3.14,<3.15"` |
 | uv | recent stable | Resolves the Python workspace + lockfile |
-| Docker + Compose | Docker Engine with Compose v2 | Required for the one-command stack |
+| Docker + Compose | Docker Engine with Compose v2 | Required for app Postgres + api/worker/web |
+| Supabase CLI | recent stable | **Required for Auth** (M1). See [install docs](https://supabase.com/docs/guides/cli) |
 
 Optional but recommended: enable Corepack (`corepack enable`) so the pinned pnpm is used.
 
-## One-command local stack
+## One-command app stack
 
 From the repository root:
 
@@ -34,9 +35,56 @@ When healthy:
 | api | http://127.0.0.1:8000/healthz |
 | web | http://127.0.0.1:3000/healthz |
 | worker | container `HEALTHCHECK` via `python -m careeros_worker.health` |
-| Postgres | `localhost:${POSTGRES_PORT:-5432}` |
+| Postgres (app) | `localhost:${POSTGRES_PORT:-5432}` |
 
 Stop with `Ctrl+C` or `docker compose down`. Data persists in the `postgres-data` volume.
+
+### Apply app migrations
+
+After Postgres is up:
+
+```bash
+pnpm db:migrate
+```
+
+See [`infra/migrations/README.md`](../infra/migrations/README.md).
+
+## Local Supabase Auth (CLI)
+
+Auth is **not** a compose service. Use the Supabase CLI against `supabase/config.toml`.
+
+```bash
+# Once: install the CLI (see Supabase docs for your OS)
+# Then from the repo root:
+supabase start
+supabase status -o env
+```
+
+Copy `API_URL`, `ANON_KEY`, and `JWT_SECRET` into `.env` as:
+
+| `supabase status` | CareerOS env |
+|---|---|
+| `API_URL` | `CAREEROS_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_URL` |
+| `ANON_KEY` | `CAREEROS_SUPABASE_ANON_KEY` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` |
+| `JWT_SECRET` | `CAREEROS_SUPABASE_JWT_SECRET` (must match `supabase/config.toml`) |
+
+Useful URLs after start (defaults from `supabase/config.toml`):
+
+| Service | URL |
+|---|---|
+| Auth / API | http://127.0.0.1:54321 |
+| Studio | http://127.0.0.1:54323 |
+| Inbucket (local email) | http://127.0.0.1:54324 |
+| Supabase DB (Auth internals only) | `localhost:54322` — **do not** use as `CAREEROS_DATABASE_URL` |
+
+Stop Auth with `supabase stop`.
+
+When api/worker run **inside compose**, they call Auth at
+`http://host.docker.internal:54321` (compose default). When they run on the **host**,
+use `http://127.0.0.1:54321` in `.env`.
+
+OAuth providers (Google/GitHub) are disabled in `config.toml` until you set client
+credentials via `env(...)` vars; email/password works locally without them.
 
 ## Host development (without full compose)
 
@@ -51,24 +99,32 @@ uv sync --all-packages
 
 ```bash
 cp .env.example .env
+supabase start
+# sync keys from `supabase status -o env` into `.env` if needed
 ```
 
-Ensure `CAREEROS_DATABASE_URL` points at a reachable Postgres (compose Postgres on
-`localhost:5432` is the usual choice). See [`environments.md`](environments.md).
+Ensure `CAREEROS_DATABASE_URL` points at compose Postgres (`localhost:5432`), not
+Supabase’s Auth DB. See [`environments.md`](environments.md).
 
 ### 3. Run services
 
 ```bash
-# Terminal A — Postgres (if not already up)
+# Terminal A — App Postgres
 docker compose up postgres
 
-# Terminal B — API
+# Terminal B — Migrations (once per schema change)
+pnpm db:migrate
+
+# Terminal C — Supabase Auth (if not already running)
+supabase start
+
+# Terminal D — API
 uv run python -m careeros_api
 
-# Terminal C — Worker
+# Terminal E — Worker
 uv run python -m careeros_worker
 
-# Terminal D — Web
+# Terminal F — Web
 pnpm --filter @career-os/web dev
 ```
 
@@ -87,6 +143,8 @@ uv build --all-packages            # Python package builds
 pnpm contracts:check               # OpenAPI → TS contracts drift check
 pnpm contracts:generate            # Regenerate contracts
 pnpm eval:gate                     # Eval gate placeholder
+pnpm db:migrate                    # Alembic upgrade head
+pnpm db:current                    # Alembic current revision
 uv run pip-audit                   # Python dependency audit
 pnpm audit --audit-level=high      # JS dependency audit
 ```

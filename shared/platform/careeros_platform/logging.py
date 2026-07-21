@@ -29,6 +29,12 @@ DEFAULT_SENSITIVE_KEYS: frozenset[str] = frozenset(
         "apikey",
         "authorization",
         "database_url",
+        "supabase_url",
+        "supabase_anon_key",
+        "supabase_jwt_secret",
+        "anon_key",
+        "jwt_secret",
+        "service_role_key",
         "email",
         "phone",
     }

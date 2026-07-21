@@ -1,0 +1,64 @@
+# CareerOS local Supabase CLI config (M1 — Auth only).
+# Install: https://supabase.com/docs/guides/cli
+# Start:   supabase start
+# Status:  supabase status -o env
+#
+# App data (User/Candidate/…) lives in docker-compose Postgres via
+# CAREEROS_DATABASE_URL + Alembic (infra/migrations). Do not use the
+# Supabase local DB (port 54322) as the application database.
+
+project_id = "careeros"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+major_version = 15
+
+[db.pooler]
+enabled = false
+
+[studio]
+enabled = true
+port = 54323
+
+[inbucket]
+enabled = true
+port = 54324
+
+[storage]
+enabled = false
+
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:3000"
+additional_redirect_urls = ["http://127.0.0.1:3000/**"]
+jwt_expiry = 3600
+enable_refresh_token_rotation = true
+refresh_token_reuse_interval = 10
+enable_signup = true
+enable_anonymous_sign_ins = false
+# Must match CAREEROS_SUPABASE_JWT_SECRET in .env / .env.example (local only).
+jwt_secret = "super-secret-jwt-token-with-at-least-32-characters-long"
+
+[auth.email]
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = false
+
+[auth.external.google]
+enabled = false
+client_id = "env(GOOGLE_CLIENT_ID)"
+secret = "env(GOOGLE_CLIENT_SECRET)"
+redirect_uri = ""
+
+[auth.external.github]
+enabled = false
+client_id = "env(GITHUB_CLIENT_ID)"
+secret = "env(GITHUB_CLIENT_SECRET)"
+redirect_uri = ""

@@ -75,3 +75,7 @@ tmp/
 # --- Build / infra local state ---
 *.local
 docker-compose.override.yml
+
+# --- Supabase CLI local state ---
+supabase/.branches
+supabase/.temp

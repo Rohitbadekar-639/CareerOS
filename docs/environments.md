@@ -1,19 +1,20 @@
 # Environments & configuration
 
-> **M0-T16.** Documents the configuration surface that exists in the repository today.
+> Documents the configuration surface that exists in the repository today.
 > Do not invent variables here — every application setting must exist on
 > `careeros_platform.settings.Settings` (or in `docker-compose.yml` for compose-only knobs).
+> Next.js `NEXT_PUBLIC_*` vars are documented here but are **not** Python Settings.
 
-Locked references: Technical Architecture §8 (Configuration), §11 (Deployment);
+Locked references: Technical Architecture §5 (Auth), §8 (Configuration), §11 (Deployment);
 Engineering Constitution §11 (Security — secrets).
 
 ## Environments
 
 | Environment | Value of `CAREEROS_ENVIRONMENT` | How it runs today |
 |---|---|---|
-| Development | `development` (default) | Local `docker compose` and/or host processes (`uv` / `pnpm`) |
-| Staging | `staging` | Not provisioned in M0; same typed settings + secret-store injection when deployed |
-| Production | `production` | Not provisioned in M0; same typed settings + secret-store injection when deployed |
+| Development | `development` (default) | Local `docker compose` + **Supabase CLI** for Auth; and/or host processes (`uv` / `pnpm`) |
+| Staging | `staging` | Not provisioned yet; same typed settings + secret-store injection when deployed |
+| Production | `production` | Not provisioned yet; same typed settings + secret-store injection when deployed |
 
 Staging and production are named by the typed `Environment` enum so fail-fast config works
 the same way in every tier. Deploy targets land in later milestones; until then, treat
@@ -35,16 +36,31 @@ Dotenv files are git-ignored (see `.gitignore`). Only `.env.example` is tracked.
 
 | Env var | Settings field | Required | Default | Notes |
 |---|---|---|---|---|
-| `CAREEROS_DATABASE_URL` | `database_url` | **yes** | — | Credentials live here; never commit real values |
+| `CAREEROS_DATABASE_URL` | `database_url` | **yes** | — | App Postgres (compose). Never the Supabase CLI DB on `:54322` |
+| `CAREEROS_SUPABASE_URL` | `supabase_url` | **yes** | — | Local: `http://127.0.0.1:54321` after `supabase start` |
+| `CAREEROS_SUPABASE_ANON_KEY` | `supabase_anon_key` | **yes** | — | From `supabase status`; local-only demo key in `.env.example` |
+| `CAREEROS_SUPABASE_JWT_SECRET` | `supabase_jwt_secret` | **yes** | — | Must match `supabase/config.toml` `[auth].jwt_secret` locally |
+| `CAREEROS_SUPABASE_JWT_AUDIENCE` | `supabase_jwt_audience` | no | `authenticated` | Supabase JWT `aud` claim |
+| _(computed)_ | `supabase_jwt_issuer` | — | `{supabase_url}/auth/v1` | Not an env var; derived for JWT verification |
 | `CAREEROS_APP_NAME` | `app_name` | no | `career-os` | Service name in logs |
 | `CAREEROS_ENVIRONMENT` | `environment` | no | `development` | One of `development`, `staging`, `production` |
 | `CAREEROS_LOG_LEVEL` | `log_level` | no | `INFO` | Structured JSON logger level |
 | `CAREEROS_API_HOST` | `api_host` | no | `127.0.0.1` | Compose overrides to `0.0.0.0` inside the api container |
 | `CAREEROS_API_PORT` | `api_port` | no | `8000` | Published host port via compose as well |
 
-These are the **only** application settings that exist in M0. There are no LLM, auth,
-storage, queue, Redis, or feature-flag env vars yet — those arrive with later milestones
-behind ports, and will be added to `.env.example` in the same PR that introduces them.
+There are no LLM, storage, queue, Redis, or feature-flag env vars yet — those arrive with
+later milestones behind ports, and will be added to `.env.example` in the same PR that
+introduces them. **Service-role keys are intentionally omitted** from Settings until a
+server use case needs them; they must never appear in `NEXT_PUBLIC_*` or the client bundle.
+
+## Web (Next.js) public env
+
+Used by the BFF / browser Supabase client (later M1 batches). Not read by Python `Settings`.
+
+| Env var | Required for auth UI | Notes |
+|---|---|---|
+| `NEXT_PUBLIC_SUPABASE_URL` | yes (when auth UI lands) | Same value as `CAREEROS_SUPABASE_URL` locally |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | yes (when auth UI lands) | Same value as `CAREEROS_SUPABASE_ANON_KEY` locally |
 
 ## Compose-only variables
 
@@ -64,12 +80,23 @@ Inside compose, api/worker receive:
 CAREEROS_DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
 ```
 
-so containers talk to Postgres by service DNS (`postgres`), not `localhost`.
+so containers talk to Postgres by service DNS (`postgres`), not `localhost`. Supabase Auth
+runs on the **Docker host** via the CLI. Compose defaults `CAREEROS_SUPABASE_URL` to
+`http://host.docker.internal:54321` so api/worker containers can reach it; host-run
+processes should use `http://127.0.0.1:54321` (see `.env.example`).
 
 The web image sets `NODE_ENV=production`, `PORT=3000`, and `HOSTNAME=0.0.0.0` in
 `infra/docker/web.Dockerfile`; compose additionally sets `NODE_ENV` and `PORT` on the
-web service. These are not `CAREEROS_*` settings. The web app has no app-level env
-vars in M0.
+web service.
+
+## Migrations
+
+Application schema: Alembic under `infra/migrations/` (see that README). Commands:
+
+```bash
+pnpm db:migrate    # upgrade head
+pnpm db:current    # show revision
+```
 
 ## Secrets
 
@@ -77,18 +104,15 @@ Rules (Constitution + Technical Architecture §8):
 
 - **Never commit secrets.** `.env`, `.env.*` (except `.env.example`), keys, and `secrets/`
   directories are git-ignored.
-- **Local development:** copy `.env.example` → `.env` and use the local-dev defaults.
-  Those defaults (`careeros` / `careeros`) are for the disposable compose Postgres only.
-- **Staging / production:** inject required values (especially `CAREEROS_DATABASE_URL`)
-  from the **platform secret store** as process environment variables. Do not bake
-  secrets into images, compose files, or the client bundle.
+- **Local development:** copy `.env.example` → `.env`, run `supabase start`, sync keys from
+  `supabase status -o env` if they differ from the example.
+- **Staging / production:** inject required values from the **platform secret store** as
+  process environment variables. Do not bake secrets into images, compose files, or the
+  client bundle.
 - **Rotation:** treat secret-store values as rotatable; the app only reads env at
   process start (`get_settings()` is cached for the process lifetime).
-- **No secrets in logs or the browser.** Structured logging redacts PII; privileged
-  credentials never reach Next.js Client Components.
-
-M0 does not yet wire a cloud secret manager. When staging/prod deploys land, secrets
-remain env-injected — only the source (secret store vs local `.env`) changes.
+- **No secrets in logs or the browser.** Structured logging redacts auth-related keys;
+  privileged credentials never reach Next.js Client Components.
 
 ## Checklist: keep `.env.example` honest
 

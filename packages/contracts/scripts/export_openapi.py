@@ -16,6 +16,9 @@ from careeros_platform.settings import Environment, Settings
 def main() -> None:
     settings = Settings(
         database_url="postgresql://localhost:5432/careeros_contracts",
+        supabase_url="http://127.0.0.1:54321",
+        supabase_anon_key="test-anon-key",
+        supabase_jwt_secret="test-jwt-secret-at-least-32-characters-long",
         environment=Environment.DEVELOPMENT,
         app_name="career-os",
     )

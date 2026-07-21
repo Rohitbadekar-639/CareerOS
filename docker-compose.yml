@@ -12,6 +12,12 @@ x-careeros-app-env: &careeros-app-env
   CAREEROS_APP_NAME: ${CAREEROS_APP_NAME:-career-os}
   # In-cluster DNS: reach Postgres by its service name.
   CAREEROS_DATABASE_URL: postgresql://${POSTGRES_USER:-careeros}:${POSTGRES_PASSWORD:-careeros}@postgres:5432/${POSTGRES_DB:-careeros}
+  # Supabase Auth runs via local CLI on the Docker host (see docs/development.md).
+  # Containers use host.docker.internal; host processes use 127.0.0.1 (see .env.example).
+  CAREEROS_SUPABASE_URL: ${CAREEROS_SUPABASE_URL:-http://host.docker.internal:54321}
+  CAREEROS_SUPABASE_ANON_KEY: ${CAREEROS_SUPABASE_ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0}
+  CAREEROS_SUPABASE_JWT_SECRET: ${CAREEROS_SUPABASE_JWT_SECRET:-super-secret-jwt-token-with-at-least-32-characters-long}
+  CAREEROS_SUPABASE_JWT_AUDIENCE: ${CAREEROS_SUPABASE_JWT_AUDIENCE:-authenticated}
 
 services:
   postgres:

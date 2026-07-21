@@ -17,7 +17,10 @@
     "test:py": "uv run pytest",
     "eval:gate": "uv run python evals/run_gate.py",
     "contracts:generate": "pnpm --filter @career-os/contracts generate",
-    "contracts:check": "pnpm --filter @career-os/contracts check"
+    "contracts:check": "pnpm --filter @career-os/contracts check",
+    "db:migrate": "uv run alembic -c infra/migrations/alembic.ini upgrade head",
+    "db:current": "uv run alembic -c infra/migrations/alembic.ini current",
+    "db:revision": "uv run alembic -c infra/migrations/alembic.ini revision"
   },
   "devDependencies": {
     "turbo": "2.10.5"

@@ -15,6 +15,7 @@ import os
 from enum import StrEnum
 from functools import lru_cache
 
+from pydantic import computed_field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 ENV_PREFIX = "CAREEROS_"
@@ -47,12 +48,27 @@ class Settings(BaseSettings):
     # sourced only from the environment/secret store, never committed.
     database_url: str
 
+    # Supabase Auth (M1). Local values come from `supabase status` after
+    # `supabase start`; see docs/development.md. Service-role keys are not
+    # loaded here — they must never reach the browser and are added only when
+    # a server use case needs them.
+    supabase_url: str
+    supabase_anon_key: str
+    supabase_jwt_secret: str
+    supabase_jwt_audience: str = "authenticated"
+
     # Optional, with safe local defaults.
     app_name: str = "career-os"
     environment: Environment = Environment.DEVELOPMENT
     log_level: str = "INFO"
     api_host: str = "127.0.0.1"
     api_port: int = 8000
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def supabase_jwt_issuer(self) -> str:
+        """JWT issuer claim used by local/hosted Supabase Auth."""
+        return f"{self.supabase_url.rstrip('/')}/auth/v1"
 
 
 def load_settings() -> Settings:
