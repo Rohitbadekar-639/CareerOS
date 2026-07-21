@@ -63,6 +63,7 @@ select = [
 [tool.ruff.lint.isort]
 known-first-party = [
     "careeros_api",
+    "careeros_identity",
     "careeros_platform",
     "careeros_shared_kernel",
     "careeros_worker",

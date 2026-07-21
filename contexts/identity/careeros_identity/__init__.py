@@ -1,0 +1,41 @@
+"""Identity & Access bounded context."""
+
+from careeros_identity.domain import (
+    AccountDeletionRequested,
+    AuthRef,
+    Consent,
+    ConsentGranted,
+    ConsentId,
+    ConsentPurpose,
+    ConsentScope,
+    ConsentWithdrawn,
+    EmailAddress,
+    User,
+    UserEmailVerified,
+    UserErased,
+    UserId,
+    UserRegistered,
+    UserRole,
+    UserStatus,
+    UserSuspended,
+)
+
+__all__ = [
+    "AccountDeletionRequested",
+    "AuthRef",
+    "Consent",
+    "ConsentGranted",
+    "ConsentId",
+    "ConsentPurpose",
+    "ConsentScope",
+    "ConsentWithdrawn",
+    "EmailAddress",
+    "User",
+    "UserEmailVerified",
+    "UserErased",
+    "UserId",
+    "UserRegistered",
+    "UserRole",
+    "UserStatus",
+    "UserSuspended",
+]

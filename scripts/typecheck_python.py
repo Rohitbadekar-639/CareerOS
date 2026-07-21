@@ -12,6 +12,7 @@ import sys
 PACKAGES = (
     "shared/platform",
     "shared/shared_kernel",
+    "contexts/identity",
     "apps/api",
     "apps/worker",
 )

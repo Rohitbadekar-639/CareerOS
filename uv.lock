@@ -6,6 +6,7 @@ requires-python = "==3.14.*"
 members = [
     "career-os",
     "careeros-api",
+    "careeros-identity",
     "careeros-platform",
     "careeros-shared-kernel",
     "careeros-worker",
@@ -174,6 +175,17 @@ requires-dist = [
     { name = "fastapi", specifier = "==0.139.2" },
     { name = "uvicorn", extras = ["standard"], specifier = "==0.51.0" },
 ]
+
+[[package]]
+name = "careeros-identity"
+version = "0.0.0"
+source = { editable = "contexts/identity" }
+dependencies = [
+    { name = "careeros-shared-kernel" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "careeros-shared-kernel", editable = "shared/shared_kernel" }]
 
 [[package]]
 name = "careeros-platform"
