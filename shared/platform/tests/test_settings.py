@@ -58,6 +58,8 @@ def test_valid_env_loads(monkeypatch: pytest.MonkeyPatch) -> None:
         settings.resolved_supabase_jwks_url
         == "http://127.0.0.1:54321/auth/v1/.well-known/jwks.json"
     )
+    assert settings.opportunity_boards.startswith("greenhouse:")
+    assert settings.ingestion_interval_seconds == 3600
     assert settings.environment is Environment.DEVELOPMENT
     assert settings.app_name == "career-os"
 

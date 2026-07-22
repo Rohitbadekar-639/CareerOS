@@ -9,3 +9,41 @@ export const HealthzHealthzGetResponseSchema = z.record(z.string(), z.string());
 export const ReadyzReadyzGetResponseSchema = z.record(z.string(), z.any());
 
 export const GetMeResponseSchema = z.any();
+
+export const ListApplicationsResponseSchema = z.any();
+
+export const UpdateApplicationStatusResponseSchema = z.any();
+
+export const GetSeekerCriteriaResponseSchema = z.any();
+
+export const UpsertSeekerCriteriaResponseSchema = z.any();
+
+export const ListNotificationsResponseSchema = z.any();
+
+export const MarkNotificationReadResponseSchema = z.any();
+
+export const GetProfileResponseSchema = z.any();
+
+export const UpsertProfileResponseSchema = z.any();
+
+export const EnrichGitHubResponseSchema = z.any();
+
+export const IngestLinkedInTextResponseSchema = z.any();
+
+export const EnrichPortfolioResponseSchema = z.any();
+
+export const IngestResumeTextResponseSchema = z.any();
+
+export const ListRecommendationsResponseSchema = z.any();
+
+export const SearchOpportunitiesResponseSchema = z.any();
+
+export const GetOpportunityResponseSchema = z.any();
+
+export const MarkOpportunityAppliedResponseSchema = z.any();
+
+export const GetOpportunityCopilotResponseSchema = z.any();
+
+export const GenerateCoverLetterResponseSchema = z.any();
+
+export const SaveOpportunityResponseSchema = z.any();

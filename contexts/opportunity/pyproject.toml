@@ -1,0 +1,21 @@
+[project]
+name = "careeros-opportunity"
+version = "0.0.0"
+description = "CareerOS Opportunity Discovery bounded context (ingest, normalize, dedup, search)"
+requires-python = ">=3.14,<3.15"
+dependencies = [
+    "careeros-shared-kernel",
+    "psycopg[binary]==3.2.10",
+    "httpx==0.28.1",
+    "pydantic==2.13.4",
+]
+
+[tool.uv.sources]
+careeros-shared-kernel = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["careeros_opportunity"]

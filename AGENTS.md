@@ -54,4 +54,5 @@ These are **LOCKED**. No code may violate them without an ADR (`docs/adr/`).
 
 ## Current phase
 
-**Implementation is starting at Milestone M0 (Foundations).** See `docs/roadmap/M0-foundations.md`. Do not build product features ahead of the roadmap.
+**CareerOS Intelligence MVP (ADR-0002)** on top of auth + Opportunity/Matching/Tracking.
+Profile ingestion, Job Hunter worker loop, and notifications — do not redesign the monolith.

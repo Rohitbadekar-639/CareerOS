@@ -5,10 +5,20 @@ description = "CareerOS async worker (background jobs; idles against the TaskQue
 requires-python = ">=3.14,<3.15"
 dependencies = [
     "careeros-platform",
+    "careeros-opportunity",
+    "careeros-matching",
+    "careeros-application-tracking",
+    "careeros-profile",
+    "careeros-notifications",
 ]
 
 [tool.uv.sources]
 careeros-platform = { workspace = true }
+careeros-opportunity = { workspace = true }
+careeros-matching = { workspace = true }
+careeros-application-tracking = { workspace = true }
+careeros-profile = { workspace = true }
+careeros-notifications = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]

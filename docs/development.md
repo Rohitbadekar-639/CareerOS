@@ -164,6 +164,31 @@ Full tests, contracts check, and security scans stay in CI. Run everything local
 uv run pre-commit run --all-files
 ```
 
+## Job Intelligence MVP (ADR-0001)
+
+1. Migrate: `pnpm db:migrate`
+2. Optional boards: `CAREEROS_OPPORTUNITY_BOARDS=greenhouse:stripe,greenhouse:gitlab`
+3. Run API + worker (worker periodically ingests public ATS feeds and rematches seekers)
+4. Sign in → `/app` → save ranking profile → view highly relevant jobs
+5. Browse/filter openings at `/app/search`
+
+Domain language is **Opportunity**; the UI says “jobs”. Ranking uses deterministic
+`heuristic-match-v1` (no LLM on the request path).
+
+## CareerOS Intelligence MVP (ADR-0002)
+
+Profile + Job Hunter + in-app notifications on top of Opportunity/Matching/Tracking.
+
+1. Migrate through `20260722_0005` (`pnpm db:migrate`)
+2. Sign in → `/app/profile` — paste resume, LinkedIn export text, GitHub username, portfolio URL
+3. Preferences sync into Matching via ACL (`ProfileSnapshot`); feed recomputes
+4. Worker Job Hunter loop: ingest boards → rematch → strong-match + digest notifications →
+   cover-letter drafts + resume tips (grounded Copilot; human review only)
+5. Check `/app/notifications` (Alerts) and Tracker for prepared drafts
+
+LinkedIn is **user-provided paste/export only** (no scraping). Enqueue an immediate cycle with
+queue job `job_hunter.run` if you need a hunt before the ingestion interval.
+
 ## Before you open a PR
 
 Follow [`CONTRIBUTING.md`](../CONTRIBUTING.md): branch naming, Conventional Commits,

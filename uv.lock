@@ -6,8 +6,13 @@ requires-python = "==3.14.*"
 members = [
     "career-os",
     "careeros-api",
+    "careeros-application-tracking",
     "careeros-identity",
+    "careeros-matching",
+    "careeros-notifications",
+    "careeros-opportunity",
     "careeros-platform",
+    "careeros-profile",
     "careeros-shared-kernel",
     "careeros-worker",
 ]
@@ -162,8 +167,13 @@ name = "careeros-api"
 version = "0.0.0"
 source = { editable = "apps/api" }
 dependencies = [
+    { name = "careeros-application-tracking" },
     { name = "careeros-identity" },
+    { name = "careeros-matching" },
+    { name = "careeros-notifications" },
+    { name = "careeros-opportunity" },
     { name = "careeros-platform" },
+    { name = "careeros-profile" },
     { name = "careeros-shared-kernel" },
     { name = "fastapi" },
     { name = "psycopg", extra = ["binary"] },
@@ -172,12 +182,32 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "careeros-application-tracking", editable = "contexts/application_tracking" },
     { name = "careeros-identity", editable = "contexts/identity" },
+    { name = "careeros-matching", editable = "contexts/matching" },
+    { name = "careeros-notifications", editable = "contexts/notifications" },
+    { name = "careeros-opportunity", editable = "contexts/opportunity" },
     { name = "careeros-platform", editable = "shared/platform" },
+    { name = "careeros-profile", editable = "contexts/profile" },
     { name = "careeros-shared-kernel", editable = "shared/shared_kernel" },
     { name = "fastapi", specifier = "==0.139.2" },
     { name = "psycopg", extras = ["binary"], specifier = "==3.2.10" },
     { name = "uvicorn", extras = ["standard"], specifier = "==0.51.0" },
+]
+
+[[package]]
+name = "careeros-application-tracking"
+version = "0.0.0"
+source = { editable = "contexts/application_tracking" }
+dependencies = [
+    { name = "careeros-shared-kernel" },
+    { name = "psycopg", extra = ["binary"] },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "careeros-shared-kernel", editable = "shared/shared_kernel" },
+    { name = "psycopg", extras = ["binary"], specifier = "==3.2.10" },
 ]
 
 [[package]]
@@ -202,6 +232,57 @@ requires-dist = [
 ]
 
 [[package]]
+name = "careeros-matching"
+version = "0.0.0"
+source = { editable = "contexts/matching" }
+dependencies = [
+    { name = "careeros-shared-kernel" },
+    { name = "psycopg", extra = ["binary"] },
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "careeros-shared-kernel", editable = "shared/shared_kernel" },
+    { name = "psycopg", extras = ["binary"], specifier = "==3.2.10" },
+    { name = "pydantic", specifier = "==2.13.4" },
+]
+
+[[package]]
+name = "careeros-notifications"
+version = "0.0.0"
+source = { editable = "contexts/notifications" }
+dependencies = [
+    { name = "careeros-shared-kernel" },
+    { name = "psycopg", extra = ["binary"] },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "careeros-shared-kernel", editable = "shared/shared_kernel" },
+    { name = "psycopg", extras = ["binary"], specifier = "==3.2.10" },
+]
+
+[[package]]
+name = "careeros-opportunity"
+version = "0.0.0"
+source = { editable = "contexts/opportunity" }
+dependencies = [
+    { name = "careeros-shared-kernel" },
+    { name = "httpx" },
+    { name = "psycopg", extra = ["binary"] },
+    { name = "pydantic" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "careeros-shared-kernel", editable = "shared/shared_kernel" },
+    { name = "httpx", specifier = "==0.28.1" },
+    { name = "psycopg", extras = ["binary"], specifier = "==3.2.10" },
+    { name = "pydantic", specifier = "==2.13.4" },
+]
+
+[[package]]
 name = "careeros-platform"
 version = "0.0.0"
 source = { editable = "shared/platform" }
@@ -223,6 +304,23 @@ requires-dist = [
 ]
 
 [[package]]
+name = "careeros-profile"
+version = "0.0.0"
+source = { editable = "contexts/profile" }
+dependencies = [
+    { name = "careeros-shared-kernel" },
+    { name = "httpx" },
+    { name = "psycopg", extra = ["binary"] },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "careeros-shared-kernel", editable = "shared/shared_kernel" },
+    { name = "httpx", specifier = "==0.28.1" },
+    { name = "psycopg", extras = ["binary"], specifier = "==3.2.10" },
+]
+
+[[package]]
 name = "careeros-shared-kernel"
 version = "0.0.0"
 source = { editable = "shared/shared_kernel" }
@@ -232,11 +330,23 @@ name = "careeros-worker"
 version = "0.0.0"
 source = { editable = "apps/worker" }
 dependencies = [
+    { name = "careeros-application-tracking" },
+    { name = "careeros-matching" },
+    { name = "careeros-notifications" },
+    { name = "careeros-opportunity" },
     { name = "careeros-platform" },
+    { name = "careeros-profile" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "careeros-platform", editable = "shared/platform" }]
+requires-dist = [
+    { name = "careeros-application-tracking", editable = "contexts/application_tracking" },
+    { name = "careeros-matching", editable = "contexts/matching" },
+    { name = "careeros-notifications", editable = "contexts/notifications" },
+    { name = "careeros-opportunity", editable = "contexts/opportunity" },
+    { name = "careeros-platform", editable = "shared/platform" },
+    { name = "careeros-profile", editable = "contexts/profile" },
+]
 
 [[package]]
 name = "certifi"

@@ -67,6 +67,13 @@ class Settings(BaseSettings):
     api_host: str = "127.0.0.1"
     api_port: int = 8000
 
+    # Job Intelligence MVP (ADR-0001). Comma-separated `kind:board_token` pairs.
+    # Example: greenhouse:stripe,ashby:notion
+    opportunity_boards: str = "greenhouse:stripe,greenhouse:gitlab"
+    ingestion_interval_seconds: int = 3600
+    match_min_score: float = 0.55
+    opportunity_active_limit: int = 400
+
     @computed_field  # type: ignore[prop-decorator]
     @property
     def supabase_jwt_issuer(self) -> str:

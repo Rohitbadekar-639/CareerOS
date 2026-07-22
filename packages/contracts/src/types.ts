@@ -58,10 +58,391 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/me/applications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Application tracker */
+        get: operations["listApplications"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/applications/{application_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update application pipeline status */
+        patch: operations["updateApplicationStatus"];
+        trace?: never;
+    };
+    "/v1/me/criteria": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get seeker ranking criteria */
+        get: operations["getSeekerCriteria"];
+        /** Upsert seeker ranking criteria and recompute matches */
+        put: operations["upsertSeekerCriteria"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/notifications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Notifications */
+        get: operations["listNotifications"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/notifications/{notification_id}/read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Mark Read */
+        post: operations["markNotificationRead"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/profile": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Profile */
+        get: operations["getProfile"];
+        /** Put Profile */
+        put: operations["upsertProfile"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/profile/github": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Enrich Github */
+        post: operations["enrichGitHub"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/profile/linkedin": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Ingest Linkedin */
+        post: operations["ingestLinkedInText"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/profile/portfolio": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Enrich Portfolio */
+        post: operations["enrichPortfolio"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/profile/resume": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Ingest Resume */
+        post: operations["ingestResumeText"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/me/recommendations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Highly relevant job recommendations */
+        get: operations["listRecommendations"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/opportunities": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Search active opportunities */
+        get: operations["searchOpportunities"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/opportunities/{opportunity_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Opportunity detail */
+        get: operations["getOpportunity"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/opportunities/{opportunity_id}/apply": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Confirm applied (user-confirmed; no auto-submit) */
+        post: operations["markOpportunityApplied"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/opportunities/{opportunity_id}/copilot": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Career Copilot advice for an opportunity */
+        get: operations["getOpportunityCopilot"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/opportunities/{opportunity_id}/cover-letter": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Generate a grounded cover-letter draft (human review required) */
+        post: operations["generateCoverLetter"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/opportunities/{opportunity_id}/save": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Save / mark interested */
+        post: operations["saveOpportunity"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /** ApplicationListResponse */
+        ApplicationListResponse: {
+            /** Items */
+            items: components["schemas"]["ApplicationResponse"][];
+        };
+        /** ApplicationResponse */
+        ApplicationResponse: {
+            /** Apply Url */
+            apply_url?: string | null;
+            /** Company */
+            company?: string | null;
+            /** Cover Letter Draft */
+            cover_letter_draft: string | null;
+            /** Created At */
+            created_at: string;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Is Remote */
+            is_remote?: boolean | null;
+            /** Location */
+            location?: string | null;
+            /** Notes */
+            notes: string;
+            /**
+             * Opportunity Id
+             * Format: uuid
+             */
+            opportunity_id: string;
+            /** Status */
+            status: string;
+            /** Title */
+            title?: string | null;
+            /** Updated At */
+            updated_at: string;
+        };
+        /**
+         * ApplicationStatus
+         * @enum {string}
+         */
+        ApplicationStatus: "interested" | "prepared" | "applied" | "interviewing" | "offer" | "rejected" | "withdrawn" | "closed";
+        /** CopilotResponse */
+        CopilotResponse: {
+            /** Match Score */
+            match_score: number | null;
+            /** Missing Skills */
+            missing_skills: string[];
+            /** Model Version */
+            model_version: string;
+            /** Resume Suggestions */
+            resume_suggestions: string[];
+            /** Why Match */
+            why_match: string[];
+        };
+        /** CoverLetterResponse */
+        CoverLetterResponse: {
+            /** Application Id */
+            application_id?: string | null;
+            /** Body */
+            body: string;
+            /** Grounding Notes */
+            grounding_notes: string[];
+            /** Model Version */
+            model_version: string;
+            /** Requires Human Review */
+            requires_human_review: boolean;
+        };
+        /** ExperienceOut */
+        ExperienceOut: {
+            /** Company */
+            company: string;
+            /** End Year */
+            end_year?: number | null;
+            /** Start Year */
+            start_year?: number | null;
+            /**
+             * Summary
+             * @default
+             */
+            summary: string;
+            /** Title */
+            title: string;
+        };
+        /** HTTPValidationError */
+        HTTPValidationError: {
+            /** Detail */
+            detail?: components["schemas"]["ValidationError"][];
+        };
         /** MeResponse */
         MeResponse: {
             /** Email */
@@ -80,6 +461,269 @@ export interface components {
             role: string;
             /** Status */
             status: string;
+        };
+        /** NotificationListResponse */
+        NotificationListResponse: {
+            /** Items */
+            items: components["schemas"]["NotificationResponse"][];
+        };
+        /** NotificationResponse */
+        NotificationResponse: {
+            /** Body */
+            body: string;
+            /** Created At */
+            created_at: string;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Kind */
+            kind: string;
+            /** Read At */
+            read_at?: string | null;
+            /** Status */
+            status: string;
+            /** Title */
+            title: string;
+        };
+        /** OpportunityDetailResponse */
+        OpportunityDetailResponse: {
+            /** Application Status */
+            application_status?: string | null;
+            /** Apply Url */
+            apply_url: string;
+            /** Company */
+            company: string;
+            /** Description Text */
+            description_text: string;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Is Remote */
+            is_remote: boolean;
+            /** Location */
+            location: string | null;
+            /** Match Score */
+            match_score?: number | null;
+            /** Posted At */
+            posted_at?: string | null;
+            /** Skills */
+            skills: string[];
+            /** Source Kind */
+            source_kind: string;
+            /** Title */
+            title: string;
+            /** Updated At */
+            updated_at: string;
+        };
+        /** OpportunityListResponse */
+        OpportunityListResponse: {
+            /** Items */
+            items: components["schemas"]["OpportunityResponse"][];
+        };
+        /** OpportunityResponse */
+        OpportunityResponse: {
+            /** Apply Url */
+            apply_url: string;
+            /** Company */
+            company: string;
+            /** Description Text */
+            description_text?: string | null;
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Is Remote */
+            is_remote: boolean;
+            /** Location */
+            location: string | null;
+            /** Posted At */
+            posted_at?: string | null;
+            /** Skills */
+            skills: string[];
+            /** Source Kind */
+            source_kind: string;
+            /** Title */
+            title: string;
+            /** Updated At */
+            updated_at: string;
+        };
+        /** ProfilePreferencesRequest */
+        ProfilePreferencesRequest: {
+            /** Github Username */
+            github_username?: string | null;
+            /**
+             * Headline
+             * @default
+             */
+            headline: string;
+            /** Linkedin Url */
+            linkedin_url?: string | null;
+            /** Portfolio Url */
+            portfolio_url?: string | null;
+            /** Preferred Locations */
+            preferred_locations?: string[];
+            /**
+             * Remote Preference
+             * @default any
+             */
+            remote_preference: string;
+            /**
+             * Salary Currency
+             * @default INR
+             */
+            salary_currency: string | null;
+            /** Salary Expectation Min */
+            salary_expectation_min?: number | null;
+        };
+        /** ProfileResponse */
+        ProfileResponse: {
+            /** Experiences */
+            experiences: components["schemas"]["ExperienceOut"][];
+            /** Github Summary */
+            github_summary: string;
+            /** Github Username */
+            github_username: string | null;
+            /** Headline */
+            headline: string;
+            /** Linkedin Text */
+            linkedin_text: string;
+            /** Linkedin Url */
+            linkedin_url: string | null;
+            /** Portfolio Summary */
+            portfolio_summary: string;
+            /** Portfolio Url */
+            portfolio_url: string | null;
+            /** Preferred Locations */
+            preferred_locations: string[];
+            /** Remote Preference */
+            remote_preference: string;
+            /** Resume Text */
+            resume_text: string;
+            /** Salary Currency */
+            salary_currency: string | null;
+            /** Salary Expectation Min */
+            salary_expectation_min: number | null;
+            /** Skills */
+            skills: string[];
+            /** Summary */
+            summary: string;
+            /** Version */
+            version: number;
+            /** Years Experience */
+            years_experience: number | null;
+        };
+        /** RecommendationItem */
+        RecommendationItem: {
+            /** Apply Url */
+            apply_url: string;
+            /** Company */
+            company: string;
+            /** Gaps */
+            gaps: string[];
+            /** Is Remote */
+            is_remote: boolean;
+            /** Location */
+            location: string | null;
+            /** Model Version */
+            model_version: string;
+            /**
+             * Opportunity Id
+             * Format: uuid
+             */
+            opportunity_id: string;
+            /** Reasons */
+            reasons: string[];
+            /** Score */
+            score: number;
+            /** Title */
+            title: string;
+        };
+        /** RecommendationListResponse */
+        RecommendationListResponse: {
+            /** Items */
+            items: components["schemas"]["RecommendationItem"][];
+        };
+        /**
+         * RemotePreference
+         * @enum {string}
+         */
+        RemotePreference: "any" | "remote_only" | "hybrid_or_onsite";
+        /** SeekerCriteriaRequest */
+        SeekerCriteriaRequest: {
+            /** Preferred Locations */
+            preferred_locations?: string[];
+            /** @default any */
+            remote_preference: components["schemas"]["RemotePreference"];
+            /**
+             * Resume Text
+             * @default
+             */
+            resume_text: string;
+            /**
+             * Salary Currency
+             * @default INR
+             */
+            salary_currency: string | null;
+            /** Salary Expectation Min */
+            salary_expectation_min?: number | null;
+            /** Skills */
+            skills?: string[];
+            /** Years Experience */
+            years_experience?: number | null;
+        };
+        /** SeekerCriteriaResponse */
+        SeekerCriteriaResponse: {
+            /** Preferred Locations */
+            preferred_locations: string[];
+            /** Remote Preference */
+            remote_preference: string;
+            /** Resume Text */
+            resume_text: string;
+            /** Salary Currency */
+            salary_currency: string | null;
+            /** Salary Expectation Min */
+            salary_expectation_min: number | null;
+            /** Skills */
+            skills: string[];
+            /** Years Experience */
+            years_experience: number | null;
+        };
+        /** StatusUpdateRequest */
+        StatusUpdateRequest: {
+            status: components["schemas"]["ApplicationStatus"];
+        };
+        /** TextBody */
+        TextBody: {
+            /** Text */
+            text: string;
+        };
+        /** UrlBody */
+        UrlBody: {
+            /** Url */
+            url: string;
+        };
+        /** UsernameBody */
+        UsernameBody: {
+            /** Username */
+            username: string;
+        };
+        /** ValidationError */
+        ValidationError: {
+            /** Context */
+            ctx?: Record<string, never>;
+            /** Input */
+            input?: unknown;
+            /** Location */
+            loc: (string | number)[];
+            /** Message */
+            msg: string;
+            /** Error Type */
+            type: string;
         };
     };
     responses: never;
@@ -150,6 +794,584 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MeResponse"];
+                };
+            };
+        };
+    };
+    listApplications: {
+        parameters: {
+            query?: {
+                status?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationListResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    updateApplicationStatus: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                application_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["StatusUpdateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    getSeekerCriteria: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SeekerCriteriaResponse"];
+                };
+            };
+        };
+    };
+    upsertSeekerCriteria: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SeekerCriteriaRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SeekerCriteriaResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listNotifications: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotificationListResponse"];
+                };
+            };
+        };
+    };
+    markNotificationRead: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                notification_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["NotificationResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    getProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileResponse"];
+                };
+            };
+        };
+    };
+    upsertProfile: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProfilePreferencesRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    enrichGitHub: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UsernameBody"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    ingestLinkedInText: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TextBody"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    enrichPortfolio: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["UrlBody"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    ingestResumeText: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TextBody"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProfileResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    listRecommendations: {
+        parameters: {
+            query?: {
+                limit?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RecommendationListResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    searchOpportunities: {
+        parameters: {
+            query?: {
+                q?: string | null;
+                location?: string | null;
+                remote_only?: boolean | null;
+                company?: string | null;
+                source?: string | null;
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OpportunityListResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    getOpportunity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                opportunity_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["OpportunityDetailResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    markOpportunityApplied: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                opportunity_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    getOpportunityCopilot: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                opportunity_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CopilotResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    generateCoverLetter: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                opportunity_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CoverLetterResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    saveOpportunity: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                opportunity_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApplicationResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };
