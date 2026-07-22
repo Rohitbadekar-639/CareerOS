@@ -11,6 +11,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     resolved = settings if settings is not None else get_settings()
     configure_tracing(resolved.app_name)
     app = FastAPI(title=resolved.app_name)
+    app.state.settings = resolved
     app.add_middleware(RequestIdMiddleware)
     register_exception_handlers(app)
     app.include_router(health_router)

@@ -6,13 +6,16 @@ requires-python = ">=3.14,<3.15"
 dependencies = [
     "careeros-platform",
     "careeros-shared-kernel",
+    "careeros-identity",
     "fastapi==0.139.2",
     "uvicorn[standard]==0.51.0",
+    "psycopg[binary]==3.2.10",
 ]
 
 [tool.uv.sources]
 careeros-platform = { workspace = true }
 careeros-shared-kernel = { workspace = true }
+careeros-identity = { workspace = true }
 
 [build-system]
 requires = ["hatchling"]

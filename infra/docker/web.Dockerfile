@@ -14,15 +14,22 @@ RUN corepack enable
 
 WORKDIR /app
 
-# Manifests first for cacheable installs. Only apps/web and packages/config are
-# JS workspace members (the Python apps have no package.json).
+# Manifests first for cacheable installs.
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml .npmrc .nvmrc turbo.json ./
 COPY packages/config/package.json ./packages/config/package.json
+COPY packages/sdk/package.json ./packages/sdk/package.json
 COPY apps/web/package.json ./apps/web/package.json
 RUN pnpm install --frozen-lockfile
 
 COPY packages/config ./packages/config
+COPY packages/sdk ./packages/sdk
 COPY apps/web ./apps/web
+# Bake public Supabase URL/key at build time for the browser bundle.
+ARG NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+ARG NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0
+ENV NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL \
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=$NEXT_PUBLIC_SUPABASE_ANON_KEY \
+    CAREEROS_API_BASE_URL=http://api:8000
 RUN pnpm --filter @career-os/web build
 
 # ---- runtime ----

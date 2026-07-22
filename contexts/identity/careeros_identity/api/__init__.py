@@ -1,1 +1,5 @@
-"""API scaffold — HTTP routers land in a later M1 batch."""
+"""Identity HTTP surface (schemas). Routes are mounted from apps/api."""
+
+from careeros_identity.api.schemas import MeResponse
+
+__all__ = ["MeResponse"]

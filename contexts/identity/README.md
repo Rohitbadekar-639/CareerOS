@@ -10,7 +10,7 @@ evolve independently of Career Profile.
 | `domain/` | Implemented — pure, no I/O |
 | `application/` | Scaffold only |
 | `ports/` | `UserRepository`, `AuthProvider` |
-| `infrastructure/` | `PostgresUserRepository`, `SupabaseAuthProvider` |
+| `infrastructure/` | `PostgresUserRepository`, `SupabaseAuthProvider` (HS256 + JWKS/ES256) |
 | `api/` | Scaffold only |
 
 ## Persistence & RLS

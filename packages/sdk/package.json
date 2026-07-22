@@ -1,0 +1,25 @@
+{
+  "name": "@career-os/sdk",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Typed CareerOS API client for web (and future mobile)",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "prettier": "@career-os/config/prettier",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@career-os/config": "workspace:*",
+    "@types/node": "24.13.3",
+    "eslint": "10.7.0",
+    "typescript": "6.0.3",
+    "vitest": "4.1.10"
+  }
+}

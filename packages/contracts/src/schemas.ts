@@ -7,3 +7,5 @@ import { z } from "zod";
 export const HealthzHealthzGetResponseSchema = z.record(z.string(), z.string());
 
 export const ReadyzReadyzGetResponseSchema = z.record(z.string(), z.any());
+
+export const GetMeResponseSchema = z.any();

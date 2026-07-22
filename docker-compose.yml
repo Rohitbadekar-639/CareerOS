@@ -12,9 +12,11 @@ x-careeros-app-env: &careeros-app-env
   CAREEROS_APP_NAME: ${CAREEROS_APP_NAME:-career-os}
   # In-cluster DNS: reach Postgres by its service name.
   CAREEROS_DATABASE_URL: postgresql://${POSTGRES_USER:-careeros}:${POSTGRES_PASSWORD:-careeros}@postgres:5432/${POSTGRES_DB:-careeros}
-  # Supabase Auth runs via local CLI on the Docker host (see docs/development.md).
-  # Containers use host.docker.internal; host processes use 127.0.0.1 (see .env.example).
-  CAREEROS_SUPABASE_URL: ${CAREEROS_SUPABASE_URL:-http://host.docker.internal:54321}
+  # JWT issuer must match tokens from the local CLI (iss uses 127.0.0.1).
+  # Asymmetric user tokens are verified via JWKS; from Docker that URL must
+  # reach the host-published Supabase API (host.docker.internal on Desktop).
+  CAREEROS_SUPABASE_URL: ${CAREEROS_SUPABASE_URL:-http://127.0.0.1:54321}
+  CAREEROS_SUPABASE_JWKS_URL: ${CAREEROS_SUPABASE_JWKS_URL:-http://host.docker.internal:54321/auth/v1/.well-known/jwks.json}
   CAREEROS_SUPABASE_ANON_KEY: ${CAREEROS_SUPABASE_ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0}
   CAREEROS_SUPABASE_JWT_SECRET: ${CAREEROS_SUPABASE_JWT_SECRET:-super-secret-jwt-token-with-at-least-32-characters-long}
   CAREEROS_SUPABASE_JWT_AUDIENCE: ${CAREEROS_SUPABASE_JWT_AUDIENCE:-authenticated}
@@ -44,6 +46,8 @@ services:
       context: .
       dockerfile: infra/docker/api.Dockerfile
     init: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       <<: *careeros-app-env
       # Bind all interfaces inside the container (default is loopback-only).
@@ -61,6 +65,8 @@ services:
       context: .
       dockerfile: infra/docker/worker.Dockerfile
     init: true
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       <<: *careeros-app-env
     depends_on:
@@ -72,10 +78,18 @@ services:
     build:
       context: .
       dockerfile: infra/docker/web.Dockerfile
+      args:
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-http://127.0.0.1:54321}
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0}
     init: true
     environment:
       NODE_ENV: production
       PORT: "3000"
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:-http://127.0.0.1:54321}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${NEXT_PUBLIC_SUPABASE_ANON_KEY:-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0}
+      # Browser calls API on the host-published port; server components in the
+      # web container reach api via Docker DNS.
+      CAREEROS_API_BASE_URL: http://api:8000
     ports:
       - "${WEB_PORT:-3000}:3000"
     depends_on:

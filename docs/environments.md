@@ -39,8 +39,9 @@ Dotenv files are git-ignored (see `.gitignore`). Only `.env.example` is tracked.
 | `CAREEROS_DATABASE_URL` | `database_url` | **yes** | — | App Postgres (compose). Never the Supabase CLI DB on `:54322` |
 | `CAREEROS_SUPABASE_URL` | `supabase_url` | **yes** | — | Local: `http://127.0.0.1:54321` after `supabase start` |
 | `CAREEROS_SUPABASE_ANON_KEY` | `supabase_anon_key` | **yes** | — | From `supabase status`; local-only demo key in `.env.example` |
-| `CAREEROS_SUPABASE_JWT_SECRET` | `supabase_jwt_secret` | **yes** | — | Must match `supabase/config.toml` `[auth].jwt_secret` locally |
+| `CAREEROS_SUPABASE_JWT_SECRET` | `supabase_jwt_secret` | **yes** | — | Legacy HS256 verify; must match `supabase/config.toml` `[auth].jwt_secret` locally |
 | `CAREEROS_SUPABASE_JWT_AUDIENCE` | `supabase_jwt_audience` | no | `authenticated` | Supabase JWT `aud` claim |
+| `CAREEROS_SUPABASE_JWKS_URL` | `supabase_jwks_url` | no | `{supabase_url}/auth/v1/.well-known/jwks.json` | Override when JWKS host ≠ issuer (compose uses `host.docker.internal`) |
 | _(computed)_ | `supabase_jwt_issuer` | — | `{supabase_url}/auth/v1` | Not an env var; derived for JWT verification |
 | `CAREEROS_APP_NAME` | `app_name` | no | `career-os` | Service name in logs |
 | `CAREEROS_ENVIRONMENT` | `environment` | no | `development` | One of `development`, `staging`, `production` |

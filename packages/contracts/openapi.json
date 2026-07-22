@@ -1,4 +1,44 @@
 {
+  "components": {
+    "schemas": {
+      "MeResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "title": "Email",
+            "type": "string"
+          },
+          "email_verified": {
+            "description": "Whether the account email is verified",
+            "title": "Email Verified",
+            "type": "boolean"
+          },
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "status",
+          "role",
+          "email_verified"
+        ],
+        "title": "MeResponse",
+        "type": "object"
+      }
+    }
+  },
   "info": {
     "title": "career-os",
     "version": "0.1.0"
@@ -50,6 +90,28 @@
         "summary": "Readyz",
         "tags": [
           "health"
+        ]
+      }
+    },
+    "/v1/me": {
+      "get": {
+        "description": "Return the CareerOS User for the bearer token; create on first call.",
+        "operationId": "getMe",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Current authenticated user",
+        "tags": [
+          "identity"
         ]
       }
     }

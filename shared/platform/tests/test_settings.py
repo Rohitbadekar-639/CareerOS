@@ -54,8 +54,29 @@ def test_valid_env_loads(monkeypatch: pytest.MonkeyPatch) -> None:
     assert settings.supabase_jwt_secret == _LOCAL_SUPABASE["supabase_jwt_secret"]
     assert settings.supabase_jwt_audience == "authenticated"
     assert settings.supabase_jwt_issuer == "http://127.0.0.1:54321/auth/v1"
+    assert (
+        settings.resolved_supabase_jwks_url
+        == "http://127.0.0.1:54321/auth/v1/.well-known/jwks.json"
+    )
     assert settings.environment is Environment.DEVELOPMENT
     assert settings.app_name == "career-os"
+
+
+def test_supabase_jwks_url_override(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("CAREEROS_DATABASE_URL", "postgresql://localhost:5432/careeros")
+    monkeypatch.setenv("CAREEROS_SUPABASE_URL", _LOCAL_SUPABASE["supabase_url"])
+    monkeypatch.setenv("CAREEROS_SUPABASE_ANON_KEY", _LOCAL_SUPABASE["supabase_anon_key"])
+    monkeypatch.setenv("CAREEROS_SUPABASE_JWT_SECRET", _LOCAL_SUPABASE["supabase_jwt_secret"])
+    monkeypatch.setenv(
+        "CAREEROS_SUPABASE_JWKS_URL",
+        "http://host.docker.internal:54321/auth/v1/.well-known/jwks.json",
+    )
+    settings = Settings()  # type: ignore[call-arg]
+    assert settings.supabase_jwt_issuer == "http://127.0.0.1:54321/auth/v1"
+    assert (
+        settings.resolved_supabase_jwks_url
+        == "http://host.docker.internal:54321/auth/v1/.well-known/jwks.json"
+    )
 
 
 def test_explicit_values_take_precedence(monkeypatch: pytest.MonkeyPatch) -> None:

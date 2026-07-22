@@ -56,6 +56,9 @@ class Settings(BaseSettings):
     supabase_anon_key: str
     supabase_jwt_secret: str
     supabase_jwt_audience: str = "authenticated"
+    # Optional override when the JWKS host differs from the JWT issuer URL
+    # (e.g. Docker API → host.docker.internal while iss stays 127.0.0.1).
+    supabase_jwks_url: str | None = None
 
     # Optional, with safe local defaults.
     app_name: str = "career-os"
@@ -69,6 +72,14 @@ class Settings(BaseSettings):
     def supabase_jwt_issuer(self) -> str:
         """JWT issuer claim used by local/hosted Supabase Auth."""
         return f"{self.supabase_url.rstrip('/')}/auth/v1"
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def resolved_supabase_jwks_url(self) -> str:
+        """JWKS discovery URL for asymmetric Supabase access tokens."""
+        if self.supabase_jwks_url and self.supabase_jwks_url.strip():
+            return self.supabase_jwks_url.rstrip("/")
+        return f"{self.supabase_url.rstrip('/')}/auth/v1/.well-known/jwks.json"
 
 
 def load_settings() -> Settings:
